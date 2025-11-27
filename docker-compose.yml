@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+
+
+  postgres_clientes:
+    image: postgres:15
+    container_name: postgres_clientes
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: bank_clientes
+    ports:
+      - "5433:5432"
+    volumes:
+      - clientes_data:/var/lib/postgresql/data
+
+  postgres_cuentas:
+    image: postgres:15
+    container_name: postgres_cuentas
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: bank_cuentas
+    ports:
+      - "5434:5432"
+    volumes:
+      - cuentas_data:/var/lib/postgresql/data
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.0
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: confluentinc/cp-kafka:7.3.0
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - "9092:9092"
+
+  cliente-persona-service:
+    build: ./cliente-persona-service
+    container_name: cliente-persona-service
+    restart: always
+    depends_on:
+      - postgres_clientes
+      - kafka
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_clientes:5432/bank_clientes
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    ports:
+      - "8081:8081"
+
+  cuenta-movimientos-service:
+    build: ./cuenta-movimientos-service
+    container_name: cuenta-movimientos-service
+    restart: always
+    depends_on:
+      - postgres_cuentas
+      - kafka
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_cuentas:5432/bank_cuentas
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    ports:
+      - "8082:8082"
+
+volumes:
+  clientes_data:
+  cuentas_data:

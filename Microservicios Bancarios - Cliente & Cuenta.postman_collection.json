@@ -1,0 +1,345 @@
+{
+	"info": {
+		"_postman_id": "a78a08da-6e76-4024-9089-6f30cc36dcce",
+		"name": "Microservicios Bancarios - Cliente & Cuenta",
+		"description": "Colección para probar los microservicios cliente-persona-service y cuenta-movimientos-service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9004548"
+	},
+	"item": [
+		{
+			"name": "CLIENTES",
+			"item": [
+				{
+					"name": "Crear Cliente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Jose Lema\",\n  \"genero\": \"M\",\n  \"edad\": 35,\n  \"identificacion\": \"123456789\",\n  \"direccion\": \"Otavalo sn y principal\",\n  \"telefono\": \"098254785\",\n  \"contrasena\": \"1234\",\n  \"estado\": true\n}"
+						},
+						"url": {
+							"raw": "{{host_clientes}}/clientes",
+							"host": [
+								"{{host_clientes}}"
+							],
+							"path": [
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Clientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_clientes}}/clientes",
+							"host": [
+								"{{host_clientes}}"
+							],
+							"path": [
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Cliente por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_clientes}}/clientes/1",
+							"host": [
+								"{{host_clientes}}"
+							],
+							"path": [
+								"clientes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Cliente",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Jose Lema Updated\",\n  \"genero\": \"M\",\n  \"edad\": 36,\n  \"identificacion\": \"123456789\",\n  \"direccion\": \"Nueva direccion\",\n  \"telefono\": \"099999999\",\n  \"contrasena\": \"abcd\",\n  \"estado\": true\n}"
+						},
+						"url": {
+							"raw": "{{host_clientes}}/clientes/1",
+							"host": [
+								"{{host_clientes}}"
+							],
+							"path": [
+								"clientes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Cliente",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host_clientes}}/clientes/1",
+							"host": [
+								"{{host_clientes}}"
+							],
+							"path": [
+								"clientes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CUENTAS",
+			"item": [
+				{
+					"name": "Crear Cuenta",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"numeroCuenta\": \"478758\",\n  \"tipoCuenta\": \"Ahorro\",\n  \"saldoInicial\": 2000,\n  \"estado\": true,\n  \"clienteId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{host_cuentas}}/cuentas",
+							"host": [
+								"{{host_cuentas}}"
+							],
+							"path": [
+								"cuentas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Cuentas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_cuentas}}/cuentas",
+							"host": [
+								"{{host_cuentas}}"
+							],
+							"path": [
+								"cuentas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Cuenta",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"numeroCuenta\": \"478758\",\n  \"tipoCuenta\": \"Corriente\",\n  \"saldoInicial\": 2500,\n  \"estado\": true,\n  \"clienteId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{host_cuentas}}/cuentas/1",
+							"host": [
+								"{{host_cuentas}}"
+							],
+							"path": [
+								"cuentas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Cuenta",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host_cuentas}}/cuentas/1",
+							"host": [
+								"{{host_cuentas}}"
+							],
+							"path": [
+								"cuentas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MOVIMIENTOS",
+			"item": [
+				{
+					"name": "Registrar Movimiento (Depósito)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"numeroCuenta\": \"478758\",\n  \"tipoMovimiento\": \"Deposito\",\n  \"valor\": 600\n}"
+						},
+						"url": {
+							"raw": "{{host_cuentas}}/movimientos",
+							"host": [
+								"{{host_cuentas}}"
+							],
+							"path": [
+								"movimientos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Movimiento (Retiro)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"numeroCuenta\": \"478758\",\n  \"tipoMovimiento\": \"Retiro\",\n  \"valor\": -575\n}"
+						},
+						"url": {
+							"raw": "{{host_cuentas}}/movimientos",
+							"host": [
+								"{{host_cuentas}}"
+							],
+							"path": [
+								"movimientos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Movimientos por Fecha y Cliente",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_cuentas}}/movimientos?fecha=2022-10-01,2022-10-31&cliente=1",
+							"host": [
+								"{{host_cuentas}}"
+							],
+							"path": [
+								"movimientos"
+							],
+							"query": [
+								{
+									"key": "fecha",
+									"value": "2022-10-01,2022-10-31"
+								},
+								{
+									"key": "cliente",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "REPORTE ESTADO DE CUENTA",
+			"item": [
+				{
+					"name": "Reporte por rango de fechas y cliente",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_cuentas}}/reportes?cliente=CLI100&desde=2025-01-01&hasta=2025-12-31",
+							"host": [
+								"{{host_cuentas}}"
+							],
+							"path": [
+								"reportes"
+							],
+							"query": [
+								{
+									"key": "cliente",
+									"value": "CLI100"
+								},
+								{
+									"key": "desde",
+									"value": "2025-01-01"
+								},
+								{
+									"key": "hasta",
+									"value": "2025-12-31"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "host_clientes",
+			"value": "http://localhost:8081"
+		},
+		{
+			"key": "host_cuentas",
+			"value": "http://localhost:8082"
+		}
+	]
+}
